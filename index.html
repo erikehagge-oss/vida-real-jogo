@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIDA REAL - A Jornada Completa v2.1</title>
+    <title>VIDA REAL - A Jornada Completa v2.2</title>
     <style>
         * {
             margin: 0;
@@ -1388,6 +1388,9 @@
             
             const [showSettings, setShowSettings] = useState(false);
             const [difficulty, setDifficulty] = useState('Médio');
+            
+            // Debug para verificar se está funcionando
+            console.log('Dificuldade atual:', difficulty);
             
             const makeChoice = (choice) => {
                 const updates = {
