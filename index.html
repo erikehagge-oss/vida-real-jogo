@@ -437,6 +437,37 @@
             padding: 5px;
         }
         
+        .settings-section {
+            margin-bottom: 20px;
+        }
+        
+        .settings-section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .settings-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .settings-option-label {
+            color: white;
+            font-size: 1rem;
+        }
+        
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -1199,6 +1230,7 @@
             };
             
             const [showSettings, setShowSettings] = useState(false);
+            const [difficulty, setDifficulty] = useState('Médio');
             
             const makeChoice = (choice) => {
                 const updates = {
@@ -1598,8 +1630,51 @@
                                     <h2 className="settings-title">⚙️ Configurações</h2>
                                     <button className="close-btn" onClick={() => setShowSettings(false)}>✖️</button>
                                 </div>
-                                <div style={{color: 'white', textAlign: 'center', padding: '20px'}}>
-                                    <p>Opções de configuração serão adicionadas aqui...</p>
+                                
+                                <div className="settings-section">
+                                    <h3 className="settings-section-title">🎮 Dificuldade</h3>
+                                    <div className="settings-option">
+                                        <span className="settings-option-label">Fácil</span>
+                                        <input 
+                                            type="radio" 
+                                            name="difficulty" 
+                                            value="Fácil"
+                                            checked={difficulty === 'Fácil'}
+                                            onChange={() => setDifficulty('Fácil')}
+                                            style={{cursor: 'pointer'}}
+                                        />
+                                    </div>
+                                    <div className="settings-option">
+                                        <span className="settings-option-label">Médio</span>
+                                        <input 
+                                            type="radio" 
+                                            name="difficulty" 
+                                            value="Médio"
+                                            checked={difficulty === 'Médio'}
+                                            onChange={() => setDifficulty('Médio')}
+                                            style={{cursor: 'pointer'}}
+                                        />
+                                    </div>
+                                    <div className="settings-option">
+                                        <span className="settings-option-label">Extremo</span>
+                                        <input 
+                                            type="radio" 
+                                            name="difficulty" 
+                                            value="Extremo"
+                                            checked={difficulty === 'Extremo'}
+                                            onChange={() => setDifficulty('Extremo')}
+                                            style={{cursor: 'pointer'}}
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="settings-section">
+                                    <h3 className="settings-section-title">💭 Observação</h3>
+                                    <div style={{color: 'white', textAlign: 'center', padding: '15px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '10px'}}>
+                                        <p style={{fontSize: '1.1rem', fontWeight: 'bold', fontStyle: 'italic'}}>
+                                            "A vida não é fácil!"
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
