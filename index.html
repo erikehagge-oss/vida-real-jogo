@@ -205,6 +205,33 @@
             font-size: 4rem;
         }
         
+        .character-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+        
+        .scene-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
         .scene-header {
             display: flex;
             align-items: center;
@@ -370,6 +397,7 @@
     </style>
 </head>
 <body>
+    <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=2000&h=1200&fit=crop" alt="Background" className="background-image" />
     <div id="app"></div>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -1027,11 +1055,12 @@
                 return (
                     <div className="container fade-in">
                         <div className="card" style={{maxWidth: '800px', margin: '40px auto'}}>
+                            <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&h=200&fit=crop" alt="Jogo da Vida" className="scene-image" />
                             <div style={{textAlign: 'center'}}>
                                 <h1 className="title">🎮 VIDA REAL</h1>
                                 <h2 className="subtitle">A JORNADA COMPLETA</h2>
                                 <p style={{fontSize: '1.1rem', marginBottom: '30px', lineHeight: '1.8'}}>
-                                    Um jogo sobre decisões e vida real na quebrada. Dos 16 aos 24 anos, cada escolha muda teu destino. Homem-Aranha, Thanos e César Menotti & Fabiano vão aparecer!
+                                    Um jogo sobre decisões e vida real na quebrada. Dos 16 aos 24 anos, cada escolha muda teu destino. Encontre personagens incríveis e construa seu destino!
                                 </p>
                             </div>
                             
@@ -1090,6 +1119,15 @@
                 return (
                     <div className="container fade-in">
                         <div className="card" style={{maxWidth: '900px', margin: '20px auto'}}>
+                            {gameState.ending === 'aura_master' && <img src="https://images.unsplash.com/photo-1516280449607-7a96c9a4f2c7?w=800&h=200&fit=crop" alt="Aura Master" className="scene-image" />}
+                            {gameState.ending === 'political_leader' && <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=200&fit=crop" alt="Presidente" className="scene-image" />}
+                            {gameState.ending === 'vingador_supremo' && <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=200&fit=crop" alt="Vingadores" className="scene-image" />}
+                            {gameState.ending === 'football_god' && <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&h=200&fit=crop" alt="Futebol" className="scene-image" />}
+                            {gameState.ending === 'justice_master' && <img src="https://images.unsplash.com/photo-1574398548145-036bb279b8f1?w=800&h=200&fit=crop" alt="Justiça" className="scene-image" />}
+                            {gameState.ending === 'coringa_chaos' && <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=200&fit=crop" alt="Coringa" className="scene-image" />}
+                            {gameState.ending === 'ultimate_balance' && <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&h=200&fit=crop" alt="Equilíbrio" className="scene-image" />}
+                            {!['aura_master', 'political_leader', 'vingador_supremo', 'football_god', 'justice_master', 'coringa_chaos', 'ultimate_balance'].includes(gameState.ending) && <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=800&h=200&fit=crop" alt="Final" className="scene-image" />}
+                            
                             <div className="ending-header" style={{background: ending.color}}>
                                 <h1 className="ending-title">{ending.title}</h1>
                                 <p className="ending-message">{ending.message}</p>
@@ -1271,7 +1309,16 @@
                     
                     {currentScene.character && (
                         <div className="character-alert">
-                            <div className="character-icon">{currentScene.icon}</div>
+                            {currentScene.character === 'spiderman' && <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=80&fit=crop&crop=face" alt="Spiderman" className="character-image" />}
+                            {currentScene.character === 'thanos' && <img src="https://images.unsplash.com/photo-1574398548145-036bb279b8f1?w=80&h=80&fit=crop&crop=face" alt="Thanos" className="character-image" />}
+                            {currentScene.character === 'cesarmennoti' && <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=80&h=80&fit=crop&crop=face" alt="César Menotti" className="character-image" />}
+                            {currentScene.character === 'chaves' && <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=80&h=80&fit=crop&crop=face" alt="Chaves" className="character-image" />}
+                            {currentScene.character === 'coringa' && <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=80&fit=crop&crop=face" alt="Coringa" className="character-image" />}
+                            {currentScene.character === 'politica' && <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Políticos" className="character-image" />}
+                            {currentScene.character === 'vingadores' && <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=80&h=80&fit=crop&crop=face" alt="Vingadores" className="character-image" />}
+                            {currentScene.character === 'futebol' && <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=80&h=80&fit=crop&crop=face" alt="Futebolistas" className="character-image" />}
+                            {currentScene.character === 'justica' && <img src="https://images.unsplash.com/photo-1574398548145-036bb279b8f1?w=80&h=80&fit=crop&crop=face" alt="Heróis" className="character-image" />}
+                            {!currentScene.character && <div className="character-icon">{currentScene.icon}</div>}
                             <div>
                                 <p style={{fontWeight: 'bold', fontSize: '1.5rem', marginBottom: '5px'}}>
                                     {currentScene.character === 'spiderman' && '🕷️ HOMEM-ARANHA APARECEU!'}
@@ -1290,6 +1337,18 @@
                     )}
                     
                     <div className="card">
+                        {currentScene.id === 0 && <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800&h=200&fit=crop" alt="Fim de semana" className="scene-image" />}
+                        {currentScene.id === 1 && <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&h=200&fit=crop" alt="Festa" className="scene-image" />}
+                        {currentScene.id === 2 && <img src="https://images.unsplash.com/photo-1516280449607-7a96c9a4f2c7?w=800&h=200&fit=crop" alt="Romance" className="scene-image" />}
+                        {currentScene.id === 3 && <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=800&h=200&fit=crop" alt="Comédia" className="scene-image" />}
+                        {currentScene.id === 4 && <img src="https://images.unsplash.com/photo-1574398548145-036bb279b8f1?w=800&h=200&fit=crop" alt="Thanos" className="scene-image" />}
+                        {currentScene.id === 5 && <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=200&fit=crop" alt="Coringa" className="scene-image" />}
+                        {currentScene.id === 6 && <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=200&fit=crop" alt="Homem-Aranha" className="scene-image" />}
+                        {currentScene.id === 7 && <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=200&fit=crop" alt="Política" className="scene-image" />}
+                        {currentScene.id === 8 && <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=200&fit=crop" alt="Vingadores" className="scene-image" />}
+                        {currentScene.id === 9 && <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&h=200&fit=crop" alt="Futebol" className="scene-image" />}
+                        {currentScene.id === 10 && <img src="https://images.unsplash.com/photo-1574398548145-036bb279b8f1?w=800&h=200&fit=crop" alt="Heróis" className="scene-image" />}
+                        
                         <div className="scene-header">
                             <div className="scene-icon-box">{currentScene.icon}</div>
                             <div>
