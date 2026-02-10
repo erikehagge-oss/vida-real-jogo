@@ -4,21 +4,376 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIDA REAL - A Jornada Completa</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            text-align: center;
+            background: linear-gradient(to right, #fbbf24, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .gender-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-gender {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid transparent;
+        }
+        
+        .btn-gender.active {
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            border-color: white;
+        }
+        
+        .btn-gender.active.female {
+            background: linear-gradient(to right, #ec4899, #f43f5e);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #10b981, #059669);
+            color: white;
+            width: 100%;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .stat-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .stat-fill {
+            height: 100%;
+            transition: width 0.5s;
+            border-radius: 10px;
+        }
+        
+        .stat-value {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .age-badge {
+            background: #8b5cf6;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .icons {
+            display: flex;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .feedback {
+            background: rgba(251, 191, 36, 0.2);
+            border: 2px solid #fbbf24;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .feedback-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fcd34d;
+        }
+        
+        .character-alert {
+            background: linear-gradient(to right, #7c3aed, #ec4899);
+            padding: 20px;
+            border-radius: 15px;
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .character-icon {
+            font-size: 4rem;
+        }
+        
+        .scene-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .scene-icon-box {
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 2.5rem;
+        }
+        
+        .scene-title {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .scene-age {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+        
+        .scene-description {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            transform: scale(1.02);
+        }
+        
+        .info-box {
+            background: rgba(59, 130, 246, 0.2);
+            border: 2px solid #3b82f6;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .ending-header {
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .ending-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .ending-message {
+            font-size: 1.3rem;
+            line-height: 1.8;
+        }
+        
+        .final-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .final-stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid;
+        }
+        
+        .final-stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .characters-met {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .characters-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        
+        .character-met {
+            text-align: center;
+        }
+        
+        .character-met-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .warning {
+            background: rgba(251, 191, 36, 0.2);
+            border: 2px solid #fbbf24;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .warning-text {
+            color: #fcd34d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .title { font-size: 2rem; }
+            .subtitle { font-size: 1.3rem; }
+            .scene-title { font-size: 1.5rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen">
+<body>
     <div id="app"></div>
     
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <script type="text/babel">
@@ -37,6 +392,9 @@
                 education: 50,
                 reputation: 50,
                 wisdom: 0,
+                aura: 0,
+                charisma: 50,
+                power: 0,
                 gameOver: false,
                 ending: '',
                 decisions: [],
@@ -45,7 +403,17 @@
                 hasKids: false,
                 metSpiderman: false,
                 metThanos: false,
-                metCesarMenotti: false
+                metCesarMenotti: false,
+                metLula: false,
+                metBolsonaro: false,
+                metViúvaNegra: false,
+                metCapitaoAmerica: false,
+                metCristianoRonaldo: false,
+                metChaves: false,
+                metRobertoCarlos: false,
+                metHomemFormiga: false,
+                metBatman: false,
+                metCoringa: false
             });
             
             const scenes = [
@@ -53,20 +421,27 @@
                     id: 0,
                     title: "O Começo - 16 Anos",
                     age: 16,
-                    description: "É sexta-feira, cê acabou de sair da escola. Teus parças te chamam pra dar um rolê na praça. Tem campeonato de futebol e som depois. Mas tua mãe pediu pra ajudar no corre. Qualé?",
+                    description: "É sexta-feira, cê acabou de sair da escola. Teus parças te chamam pra dar um rolê na praça. Tem campeonato de futebol e som depois. Mas tua mãe pediu pra ajudar no corre hoje. Qualé a tua?",
                     icon: "🏠",
                     choices: [
                         {
-                            text: "Ir pro rolê com os parças",
-                            effects: { health: 0, relationship: 10, reputation: 5, money: 0, wisdom: -5 },
-                            feedback: "Foi no rolê, curtiu, mas tua mãe ficou bolada. Responsa com a família é importante, tá ligado?",
+                            text: "Ir pro rolê com os parças, mãe vai entender depois",
+                            effects: { health: 0, relationship: 10, reputation: 5, money: 0, wisdom: -5, aura: -5, charisma: 10, power: 0 },
+                            feedback: "Foi no rolê, curtiu com os parças, mas tua mãe ficou bolada. Responsa com a família é importante, tá ligado?",
                             nextScene: 1
                         },
                         {
-                            text: "Ajudar a mãe e depois vai pro rolê",
-                            effects: { health: 5, relationship: 5, reputation: 10, money: 20, wisdom: 10 },
-                            feedback: "Visão! Ajudou tua coroa, ganhou uns trocados e ainda foi pro rolê. Equilíbrio é tudo!",
+                            text: "Ajudar a mãe no corre e depois vai pro rolê mais tarde",
+                            effects: { health: 5, relationship: 5, reputation: 10, money: 20, wisdom: 10, aura: 15, charisma: 5, power: 5 },
+                            feedback: "Visão! Ajudou tua coroa, ganhou uns trocados e ainda deu pra ir pro rolê depois. Equilíbrio é tudo!",
                             nextScene: 1
+                        },
+                        {
+                            text: "Negociar com a mãe: ajudo agora e depois me dá uma grana extra",
+                            effects: { health: 0, relationship: 0, reputation: 15, money: 30, wisdom: 20, aura: 25, charisma: 0, power: 10 },
+                            feedback: "Negociador nato! Tu conseguiu uma grana extra e ainda foi pro rolê. Isso é AURA pura!",
+                            nextScene: 1,
+                            triggerCharacter: 'coringa'
                         }
                     ]
                 },
@@ -74,40 +449,47 @@
                     id: 1,
                     title: "A Festa na Laje",
                     age: 16,
-                    description: "Sábado à noite, festa na laje. Funk, churrasco, galera massa. Aquela pessoa que tu curte tá lá toda arrumada. Mas tem uns maluco bebendo demais e pressionando os outros.",
+                    description: "Sábado à noite, tem festa na laje do Juninho. Vai ter funk, churrasco e uma galera massa. Tu vê aquela pessoa que tu curte na escola tá lá também, toda arrumada. O clima tá pesado. Mas tu sabe que tem uns maluco bebendo demais e fazendo pressão pros outros beber também.",
                     icon: "🎉",
                     choices: [
                         {
                             text: "Beber com a galera pra ficar na vibe",
-                            effects: { health: -15, relationship: 5, reputation: 5, money: -10, wisdom: -10 },
-                            feedback: "Bebeu demais, passou mal na frente da pessoa que tu curte. Álcool em excesso só atrapalha!",
+                            effects: { health: -15, relationship: 5, reputation: 5, money: -10, wisdom: -10, aura: -10, charisma: 5, power: -5 },
+                            feedback: "Tu bebeu demais, passou mal, e ainda ficou pagando mico na frente da pessoa que tu curte. Álcool em excesso só atrapalha, mano.",
                             nextScene: 2
                         },
                         {
-                            text: "Não beber e focar em conversar",
-                            effects: { health: 5, relationship: 15, reputation: 5, money: 0, wisdom: 10 },
-                            feedback: "Ficou de boa, conversou com a pessoa e fluiu natural! Sem álcool pra ter coragem. Responsa!",
+                            text: "Não beber e focar em conhecer a pessoa que tu curte",
+                            effects: { health: 5, relationship: 15, reputation: 5, money: 0, wisdom: 10, aura: 10, charisma: 15, power: 0 },
+                            feedback: "Tu ficou de boa, conversou com a pessoa, e a parada fluiu natural! Sem precisar de álcool pra ter coragem. Responsa!",
                             nextScene: 3
+                        },
+                        {
+                            text: "Chegar de mansinho e fazer uma piada pra quebrar o gelo",
+                            effects: { health: 0, relationship: 20, reputation: 10, money: 0, wisdom: 5, aura: 30, charisma: 25, power: 0 },
+                            feedback: "Tu chegou com uma piada MASTER! A galera riu, a pessoa curtiu, e tu virou o alma da festa. AURA DE 1000!",
+                            nextScene: 3,
+                            triggerCharacter: 'chaves'
                         }
                     ]
                 },
                 {
                     id: 2,
-                    title: "O Crush - 17 Anos",
+                    title: "O Crush Chegou - 17 Anos",
                     age: 17,
-                    description: "Alguns meses depois, tu tá conhecendo melhor aquela pessoa. Cês saem, conversam todo dia. Voltando do cinema, ela(e) convida: 'Quer subir lá em casa? Meus pais viajaram...'",
+                    description: "Alguns meses depois, tu tá conhecendo melhor aquela pessoa. Cês saem, conversam todo dia, a vibe tá boa. Mas ainda não rolou nada mais sério. Cês tão voltando de um cinema, e ela(e) te convida: 'Quer subir lá em casa? Meus pais viajaram...'",
                     icon: "❤️",
                     choices: [
                         {
-                            text: "Aceitar e ir sem pensar",
+                            text: "Aceitar e ir sem pensar muito",
                             effects: { health: -10, relationship: 15, money: 0, wisdom: -10 },
-                            feedback: "Foram mas não tavam preparados. Não tinham proteção. Situação ficou estranha!",
+                            feedback: "Cês foram, mas não tavam preparados. Não tinham camisinha, e a situação ficou meio estranha. Faltou planejamento!",
                             nextScene: 4
                         },
                         {
-                            text: "Sugerir conversar sobre proteção primeiro",
+                            text: "Sugerir conversar antes sobre proteção e limites",
                             effects: { health: 15, relationship: 25, money: 0, wisdom: 25 },
-                            feedback: "VISÃO! Conversaram sobre limites e proteção. Relacionamento de verdade é isso!",
+                            feedback: "Visão das galáxias! Vocês conversaram aberto sobre proteção, limites, expectativas. Isso é relacionamento de verdade!",
                             nextScene: 5,
                             triggerCharacter: 'spiderman'
                         }
@@ -115,15 +497,23 @@
                 },
                 {
                     id: 3,
-                    title: "Conversa Boa",
-                    age: 16,
-                    description: "Sem beber, tu teve papo massa. A pessoa te contou sonhos, medos, família. Conectaram de verdade. 'Nossa, que papo bom! A gente devia sair mais, né?'",
-                    icon: "💭",
+                    title: "CHAVES APARECE! - 17 Anos",
+                    age: 17,
+                    description: "De repente, um garotinho com roupa listrada e boné aparece! 'Que bonito é o campo, sô! Eu vi que tu foi muito esperto na festa! Quem não tem comunicação, não tem nada!' Chaves te entrega um presente misterioso...",
+                    icon: "🎭",
+                    character: 'chaves',
                     choices: [
                         {
-                            text: "Topar e já marcar próxima semana",
-                            effects: { health: 5, relationship: 25, reputation: 15, wisdom: 15 },
-                            feedback: "Massa! Vocês marcaram rolê e trocaram número. Começou amizade saudável!",
+                            text: "Agradecer e perguntar qual é o presente",
+                            effects: { health: 10, relationship: 15, reputation: 20, money: 0, wisdom: 25, aura: 40, charisma: 30, power: 5 },
+                            feedback: "Chaves ri: 'É o tesouro da sabedoria! Agora tu vai ter mais AURA nas escolhas!' Ele some num piscar de olhos!",
+                            nextScene: 2,
+                            partnerGained: true
+                        },
+                        {
+                            text: "Fazer uma piada de volta pro Chaves",
+                            effects: { health: 5, relationship: 25, reputation: 25, money: 0, wisdom: 20, aura: 50, charisma: 40, power: 0 },
+                            feedback: "Chaves morre de rir! 'Tu é mais engraçado que o Quico! A gente vai ser melhor amigo!' Vocês trocam figurinhas!",
                             nextScene: 2,
                             partnerGained: true
                         }
@@ -133,21 +523,21 @@
                     id: 4,
                     title: "THANOS APARECE! - 17 Anos",
                     age: 17,
-                    description: "Sem proteção, foram na onda. Bom na hora, mas agora vem preocupação. DST? Gravidez? Um portal roxo se abre... THANOS! 'Jovem tolo! Decisões impensadas têm consequências ETERNAS. Eu eliminei metade do universo por propósito maior. E você? Por prazer momentâneo arriscou todo seu futuro!'",
+                    description: "Sem proteção, vocês foram na onda. Foi bom na hora, mas agora bate aquela preocupação. E se der alguma coisa errada? DST? Gravidez? O arrependimento vem forte. De repente, um portal roxo se abre e surge THANOS! 'Jovem tolo, decisões impensadas têm consequências eternas. Eu eliminei metade do universo por um propósito maior. E você? Por um prazer momentâneo arrisca todo seu futuro?'",
                     icon: "💜",
                     character: 'thanos',
                     choices: [
                         {
-                            text: "Escutar Thanos e refletir",
+                            text: "Escutar Thanos e refletir sobre as escolhas",
                             effects: { health: 5, relationship: 5, money: 0, wisdom: 30 },
-                            feedback: "Thanos: 'O equilíbrio exige sacrifício. Seu futuro vale mais que impulsos!' Tu aprendeu pesado.",
+                            feedback: "Thanos te fez pensar! Ele disse: 'O equilíbrio exige sacrifício. Seu futuro vale mais que impulsos momentâneos.' Tu aprendeu uma lição pesada.",
                             nextScene: 6,
                             thanosInfluence: 20
                         },
                         {
-                            text: "Prometer mudar e ser responsável",
+                            text: "Prometer a Thanos que vai mudar e ser responsável",
                             effects: { health: 10, relationship: 10, money: 0, wisdom: 35 },
-                            feedback: "Thanos: 'Sabedoria vem de reconhecer erros. Use proteção, respeite consequências.' Ele te dá uma pedra... de camisinha infinita!",
+                            feedback: "Thanos assente: 'Sabedoria vem de reconhecer erros. Busque conhecimento, use proteção, respeite consequências.' Ele desaparece deixando uma pedra do infinito... de camisinha!",
                             nextScene: 7,
                             thanosInfluence: 30
                         }
@@ -155,48 +545,173 @@
                 },
                 {
                     id: 5,
-                    title: "HOMEM-ARANHA! - 17 Anos",
+                    title: "CORINGA APARECE! - 17 Anos",
                     age: 17,
-                    description: "Voltando pra casa depois de conversar sobre responsa... SPLASH! Homem-Aranha pousa na tua frente! 'E aí jovem! Vi que tomou decisão madura hoje. Sabe, com grandes poderes vêm grandes responsabilidades... e com vida sexual também!'",
-                    icon: "🕷️",
-                    character: 'spiderman',
+                    description: "De repente, um carro bate e sai o CORINGA! 'HAHAHAHA! Vi tua negociação com a mãe! Isso é que é estratégia! Vamos fazer um negócio? Me ajuda com uma coisinha e eu te ensino o segredo da AURA MÁXIMA!'",
+                    icon: "🃏",
+                    character: 'coringa',
                     choices: [
                         {
-                            text: "Pedir conselhos sobre relacionamento",
-                            effects: { health: 10, relationship: 20, wisdom: 30 },
-                            feedback: "Aranha: 'MJ e eu sempre conversamos sobre TUDO - limites, proteção, futuro. Diálogo é o maior poder!' Te dá folheto do SUS!",
-                            nextScene: 8,
-                            spidermanAdvice: 30
+                            text: "Aceitar o plano do Coringa",
+                            effects: { health: -10, relationship: 10, reputation: -20, money: 50, wisdom: 30, aura: 60, charisma: 20, power: 40 },
+                            feedback: "HAHAHA! Tu fez um plano MASTER! Ganhou grana, AURA de vilão, mas perdeu confiança dos bons. Todo poder tem um preço!",
+                            nextScene: 15,
+                            coringaChaos: 50
                         },
                         {
-                            text: "Prometer sempre pensar antes de agir",
-                            effects: { health: 15, relationship: 20, wisdom: 40 },
-                            feedback: "Aranha: 'Pensar antes de agir salvou minha vida várias vezes! Vai salvar a sua também!' Nunca vai esquecer.",
+                            text: "Recusar educadamente e dizer que prefere o caminho do bem",
+                            effects: { health: 15, relationship: 20, reputation: 30, money: 0, wisdom: 35, aura: 45, charisma: 35, power: 20 },
+                            feedback: "Coringa para: 'Interessante... Tu tem AURA de herói mesmo! Vou ficar de olho!' Ele some, mas te respeitou!",
                             nextScene: 8,
-                            spidermanAdvice: 40
+                            coringaRespect: 40
                         }
                     ]
                 },
                 {
                     id: 6,
-                    title: "Mudança de Vida - 18 Anos",
-                    age: 18,
-                    description: "Depois de Thanos, tu mudou! Estudou sobre saúde sexual, métodos contraceptivos, DSTs. Foi no posto fazer exames. Tava tudo bem. Agora tá com 18, na faculdade, tem trampo.",
-                    icon: "🎓",
+                    title: "O Encontro com o Homem-Aranha - 17 Anos",
+                    age: 17,
+                    description: "Cê tá voltando pra casa depois de ter conversado sobre limites e responsa com teu crush. De repente, SPLASH! O Homem-Aranha pousa na tua frente! 'E aí, jovem! Notei que você tomou uma decisão madura hoje. Sabe, com grandes poderes vêm grandes responsabilidades... e com a vida sexual também! Quer umas dicas do Aranha?'",
+                    icon: "🕷️",
+                    character: 'spiderman',
                     choices: [
                         {
-                            text: "Focar nos estudos e trampo",
-                            effects: { health: 5, relationship: -10, money: 30, education: 30, wisdom: 20 },
-                            feedback: "Investindo no futuro! Estudos e trampo em dia. Mas não se isola total, tá ligado?",
+                            text: "Pedir conselhos pro Homem-Aranha sobre relacionamentos",
+                            effects: { health: 10, relationship: 20, money: 0, wisdom: 30, aura: 20, charisma: 25, power: 15 },
+                            feedback: "Aranha diz: 'Olha, eu aprendi do jeito difícil. MJ e eu sempre conversamos sobre tudo - limites, proteção, futuro. Diálogo é o maior poder!' Ele te dá um folheto do SUS sobre saúde sexual!",
                             nextScene: 9,
-                            jobGained: true
+                            spidermanAdvice: 30
                         },
                         {
-                            text: "Criar projeto de educação sexual na quebrada",
-                            effects: { health: 15, relationship: 20, money: -10, education: 25, reputation: 35, wisdom: 35 },
-                            feedback: "VISÃO! Tu tá multiplicando conhecimento. Fazendo diferença DE VERDADE!",
-                            nextScene: 10,
-                            triggerCharacter: 'cesarmennoti'
+                            text: "Agradecer e dizer que vai sempre pensar antes de agir",
+                            effects: { health: 15, relationship: 20, money: 0, wisdom: 40, aura: 35, charisma: 30, power: 25 },
+                            feedback: "Aranha: 'Essa é a atitude! Pensar antes de agir salvou minha vida várias vezes. E vai salvar a sua também!' Ele desaparece entre os prédios, mas tu nunca vai esquecer esse papo.",
+                            nextScene: 9,
+                            spidermanAdvice: 40
+                        }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "LULA E BOLSONARO APARECEM! - 18 Anos",
+                    age: 18,
+                    description: "Na faculdade, tem um debate político! De repente, LULA aparece: 'Meu filho, o povo é que manda! Vamos construir um Brasil melhor!' BOLSONARO responde: 'Não! A família é a base! Liberdade com responsabilidade!' Eles te perguntam: 'Qual é tua visão pro futuro do Brasil?'",
+                    icon: "🏛️",
+                    character: 'politica',
+                    choices: [
+                        {
+                            text: "Apoiar Lula e programas sociais",
+                            effects: { health: 10, relationship: 25, reputation: 30, money: 20, wisdom: 25, aura: 20, charisma: 35, power: 15 },
+                            feedback: "Lula abraça: 'Esse jovem tem coração de povo!' Tu ganhou apoio político e respeito da comunidade!",
+                            nextScene: 11,
+                            lulaSupport: 40
+                        },
+                        {
+                            text: "Apoiar Bolsonaro e liberdade econômica",
+                            effects: { health: 15, relationship: 15, reputation: 25, money: 40, wisdom: 20, aura: 25, charisma: 30, power: 30 },
+                            feedback: "Bolsonaro: 'Esse moço entende de livre mercado!' Tu virou referência em empreendedorismo!",
+                            nextScene: 12,
+                            bolsonaroSupport: 40
+                        },
+                        {
+                            text: "Propor um meio termo: equilíbrio entre social e liberal",
+                            effects: { health: 20, relationship: 30, reputation: 40, money: 30, wisdom: 40, aura: 50, charisma: 45, power: 35 },
+                            feedback: "Ambos concordam: 'Esse jovem tem visão!' Tu virou mediador político respeitado!",
+                            nextScene: 13,
+                            politicalBalance: 50
+                        }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "VIÚVA NEGRA E CAPITÃO AMÉRICA! - 19 Anos",
+                    age: 19,
+                    description: "Treinando na academia, VIÚVA NEGRA aparece: 'Seus movimentos precisam de mais precisão!' CAPITÃO AMÉRICA pousa: 'E sua mente precisa de mais estratégia!' Eles te oferecem treinamento de VINGADORES!",
+                    icon: "🛡️",
+                    character: 'vingadores',
+                    choices: [
+                        {
+                            text: "Treinar espionagem com Viúva Negra",
+                            effects: { health: 20, relationship: 10, reputation: 20, money: 0, wisdom: 35, aura: 40, charisma: 30, power: 50 },
+                            feedback: "Viúva Negra: 'Você tem instinto de espião!' Aprendeu técnicas de infiltração e persuasão!",
+                            nextScene: 14,
+                            viúvaNegraTraining: 50
+                        },
+                        {
+                            text: "Treinar liderança com Capitão América",
+                            effects: { health: 25, relationship: 20, reputation: 35, money: 0, wisdom: 30, aura: 35, charisma: 50, power: 45 },
+                            feedback: "Capitão: 'Você nasceu para liderar!' Aprendeu estratégia militar e inspiração!",
+                            nextScene: 15,
+                            capitaoAmericaTraining: 50
+                        },
+                        {
+                            text: "Combinar os dois estilos: espião-líder",
+                            effects: { health: 30, relationship: 25, reputation: 40, money: 0, wisdom: 45, aura: 60, charisma: 55, power: 60 },
+                            feedback: "Ambos impressionados: 'Você é o futuro dos Vingadores!' Virou agente completo!",
+                            nextScene: 16,
+                            vingadorComplete: 60
+                        }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "CRISTIANO RONALDO E ROBERTO CARLOS! - 20 Anos",
+                    age: 20,
+                    description: "No campo de futebol, CRISTIANO RONALDO chuta: 'SIIUUU! Você precisa de mais disciplina!' ROBERTO CARLOS toca: 'E eu te ensino a fazer falta sem levar cartão!' Eles te convidam pra jogar no time dos sonhos!",
+                    icon: "⚽",
+                    character: 'futebol',
+                    choices: [
+                        {
+                            text: "Aprender dedicação com Cristiano Ronaldo",
+                            effects: { health: 30, relationship: 15, reputation: 30, money: 60, wisdom: 25, aura: 45, charisma: 40, power: 35 },
+                            feedback: "CR7: 'Você tem mentalidade de campeão!' Assinou contrato milionário e virou ídolo!",
+                            nextScene: 17,
+                            cristianoMentality: 50
+                        },
+                        {
+                            text: "Aprender carisma com Roberto Carlos",
+                            effects: { health: 20, relationship: 30, reputation: 35, money: 40, wisdom: 20, aura: 35, charisma: 60, power: 25 },
+                            feedback: "Roberto Carlos: 'Você tem o dom!' Virou celebridade e conquistou todos!",
+                            nextScene: 18,
+                            robertoCharisma: 50
+                        },
+                        {
+                            text: "Criar estilo próprio: fusão dos dois",
+                            effects: { health: 35, relationship: 35, reputation: 45, money: 80, wisdom: 35, aura: 55, charisma: 65, power: 45 },
+                            feedback: 'Ambos: "Você revolucionou o futebol!" Virou lenda viva!',
+                            nextScene: 19,
+                            footballLegend: 70
+                        }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "HOMEM FORMIGA E BATMAN! - 21 Anos",
+                    age: 21,
+                    description: "No laboratório, HOMEM FORMIGA encolhe: 'Precisamos de sua ajuda numa missão microscópica!' BATMAN aparece das sombras: 'E eu preciso de sua mente estratégica!' Eles te oferecem lugar na JUSTIÇA!",
+                    icon: "🦇",
+                    character: 'justica',
+                    choices: [
+                        {
+                            text: "Trabalhar com tecnologia do Homem Formiga",
+                            effects: { health: 15, relationship: 10, reputation: 25, money: 30, wisdom: 40, aura: 35, charisma: 20, power: 55 },
+                            feedback: "Homem Formiga: 'Você domina a tecnologia!' Virou cientista e inventor genial!",
+                            nextScene: 20,
+                            antManTech: 50
+                        },
+                        {
+                            text: "Aprender investigação com Batman",
+                            effects: { health: 20, relationship: 15, reputation: 40, money: 20, wisdom: 45, aura: 45, charisma: 35, power: 50 },
+                            feedback: "Batman: 'Você tem mente de detetive!' Virou o maior investigador do mundo!",
+                            nextScene: 21,
+                            batmanDetective: 50
+                        },
+                        {
+                            text: "Combinar tecnologia e investigação",
+                            effects: { health: 25, relationship: 25, reputation: 50, money: 50, wisdom: 55, aura: 60, charisma: 45, power: 65 },
+                            feedback: "Ambos: 'Você é o perfeito herói moderno!' Virou líder da Justiça!",
+                            nextScene: 22,
+                            justiceLeader: 70
                         }
                     ]
                 },
@@ -204,20 +719,20 @@
                     id: 7,
                     title: "Nova Fase - 19 Anos",
                     age: 19,
-                    description: "Tu virou referência! Agora com 19 anos, tá estruturado. Trampo, faculdade, relacionamentos sempre com responsa. A vida tá nos eixos!",
+                    description: "Inspirado pela lição de Thanos, tu virou referência na quebrada. Sempre dá conselhos pros mais novos sobre responsa, proteção, respeito. Tá na faculdade, tem um trampo, e se der namoro, é sempre com diálogo e cuidado. A vida tá nos eixos! Agora tu precisa decidir qual rumo seguir.",
                     icon: "⭐",
                     choices: [
                         {
-                            text: "Focar na carreira profissional",
+                            text: "Focar na carreira e crescimento profissional",
                             effects: { health: 10, relationship: 5, money: 40, education: 35, wisdom: 25 },
-                            feedback: "Investindo pesado! Grana entrando, oportunidades aparecendo!",
+                            feedback: "Tu tá investindo pesado no futuro! Trampo e estudos tão em dia. A grana tá entrando e as oportunidades aparecendo!",
                             nextScene: 11,
                             jobGained: true
                         },
                         {
-                            text: "Equilibrar carreira e relacionamento",
+                            text: "Equilibrar carreira e relacionamento sério",
                             effects: { health: 15, relationship: 30, money: 30, education: 30, wisdom: 30 },
-                            feedback: "Equilíbrio perfeito! Crescendo profissionalmente E mantendo relação saudável!",
+                            feedback: "Equilíbrio perfeito! Tu tá conseguindo crescer profissionalmente E manter uma relação saudável. Isso é sucesso de verdade!",
                             nextScene: 12,
                             jobGained: true,
                             partnerGained: true
@@ -228,13 +743,13 @@
                     id: 8,
                     title: "Casal Responsável - 19 Anos",
                     age: 19,
-                    description: "Inspirado pelo Aranha, tu e teu parceiro(a) são exemplo! Sempre com proteção, diálogo aberto, respeito mútuo. Tão pensando no futuro juntos.",
+                    description: "Inspirado pelo Homem-Aranha, tu e teu parceiro(a) são exemplo! Vocês usam camisinha sempre, conversam sobre tudo, e estão planejando o futuro juntos. É isso que é relacionamento saudável! Agora vocês tão pensando no futuro.",
                     icon: "💑",
                     choices: [
                         {
-                            text: "Planejar vida juntos com estrutura",
+                            text: "Planejar a vida juntos: estudos, trabalho, morar junto futuramente",
                             effects: { health: 15, relationship: 35, money: 10, education: 25, wisdom: 30 },
-                            feedback: "Casal VISÃO! Planejamento é tudo. Construindo futuro sólido com responsa!",
+                            feedback: "Casal visão! Planejamento é tudo. Vocês tão construindo um futuro sólido juntos, com metas e responsa!",
                             nextScene: 13,
                             partnerGained: true
                         }
@@ -244,21 +759,21 @@
                     id: 9,
                     title: "Carreira em Alta - 21 Anos",
                     age: 21,
-                    description: "Tu tá voando! Grana entrando, respeito no trampo, tem AP próprio. Mas às vezes bate solidão... Parças têm família, parceiro, filhos...",
+                    description: "Tu tá voando na carreira! Grana entrando, respeito no trabalho, já tem teu próprio AP. A vida profissional tá perfeita. Mas às vezes bate aquela solidão, sabe? Ver os parças com família, parceiro(a), filhos... Tu começa a pensar que talvez tá faltando algo.",
                     icon: "💼",
                     choices: [
                         {
-                            text: "Continuar só na carreira",
+                            text: "Continuar priorizando carreira, relacionamento depois",
                             effects: { health: 10, relationship: -5, money: 60, education: 45, wisdom: 30 },
-                            feedback: "Rico mas sozinho. Sucesso financeiro não é tudo, tá ligado?",
+                            feedback: "Tu tá rico, mas sozinho. Sucesso financeiro é importante, mas não é tudo na vida, tá ligado? Equilíbrio é fundamental!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'lonely_success'
                         },
                         {
-                            text: "Abrir coração pra novas possibilidades",
+                            text: "Abrir o coração pra novas possibilidades",
                             effects: { health: 15, relationship: 25, money: 50, education: 40, wisdom: 40 },
-                            feedback: "Percebeu que dá pra ter sucesso profissional E pessoal!",
+                            feedback: "Tu percebeu que tem espaço pra alguém especial! Começou a se abrir, conhecer pessoas. E descobriu que dá sim pra ter sucesso profissional E pessoal!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'complete_life'
@@ -269,14 +784,14 @@
                     id: 10,
                     title: "CÉSAR MENOTTI E FABIANO! - 20 Anos",
                     age: 20,
-                    description: "Voltando do posto com camisinhas... CÉSAR MENOTTI E FABIANO aparecem! 'Eita, casal responsa! A gente canta sobre amor, mas amor de verdade inclui cuidado e respeito!'",
+                    description: "Cê tá voltando do posto de saúde com teu crush, camisinhas e anticoncepcional na mochila, quando de repente... CÉSAR MENOTTI E FABIANO aparecem saindo de um show! César vê vocês e grita: 'Eita, casal responsa! Vi vocês saindo do posto. Deixa eu contar uma coisa...' Fabiano complementa: 'É isso aí, a gente canta sobre amor, mas amor de verdade inclui cuidado e respeito!'",
                     icon: "🎸",
                     character: 'cesarmennoti',
                     choices: [
                         {
-                            text: "Contar sobre projeto de educação sexual",
+                            text: "Contar sobre o projeto de educação sexual na quebrada",
                             effects: { health: 10, relationship: 25, money: 50, reputation: 35, wisdom: 35 },
-                            feedback: "César: 'Vamos patrocinar! Show beneficente na quebrada!' Fabiano: 'E vamos compor música!' Conseguiu patrocínio!",
+                            feedback: "César: 'Que massa! Olha, a gente vai patrocinar esse projeto! Vamos fazer um show beneficente na quebrada pra arrecadar grana!' Fabiano: 'E vamos compor uma música sobre isso!' Vocês conseguiram patrocínio de verdade!",
                             nextScene: 14,
                             sertanejoWisdom: 35
                         }
@@ -286,13 +801,13 @@
                     id: 11,
                     title: "Só Carreira - 23 Anos",
                     age: 23,
-                    description: "Sucesso profissional TOTAL! Mas olha pro lado... ninguém pra compartilhar. Parças têm família. Tu tem grana mas não tem com quem jantar.",
+                    description: "Tu chegou longe profissionalmente! Mas tá sozinho. Olha pro lado e não tem ninguém pra compartilhar as conquistas. Os parças todos têm família. Tu tem grana, mas não tem com quem jantar. Sucesso sem equilíbrio não é sucesso completo, tá ligado?",
                     icon: "💰",
                     choices: [
                         {
-                            text: "Refletir e tentar mudar",
+                            text: "Refletir e tentar mudar a rota",
                             effects: { health: 10, relationship: 15, money: 60, education: 50, wisdom: 40 },
-                            feedback: "Nunca é tarde pra abrir o coração! Vida é mais que trabalho!",
+                            feedback: "Tu percebeu que precisa de equilíbrio! Nunca é tarde pra abrir o coração e deixar alguém entrar. Vida é mais que trabalho!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'late_realization'
@@ -300,7 +815,7 @@
                         {
                             text: "Aceitar que escolheu esse caminho",
                             effects: { health: 5, relationship: -10, money: 70, education: 55, wisdom: 35 },
-                            feedback: "Rico, independente, mas sozinho... Será que não vai se arrepender?",
+                            feedback: "Tu decidiu que tá de boa assim. Rico, independente, mas sozinho. Cada um sabe da sua vida, mas... será que não vai se arrepender depois?",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'empty_success'
@@ -311,21 +826,21 @@
                     id: 12,
                     title: "Vida Equilibrada - 22 Anos",
                     age: 22,
-                    description: "Tu conseguiu! Carreira sólida, relacionamento estável, saúde em dia. Sempre com proteção, diálogo, planejamento. Pensando no próximo passo: filho? Quando vocês estiverem prontos!",
+                    description: "Tu conseguiu! Carreira sólida, relacionamento estável e saudável, saúde em dia. Vocês usam proteção sempre, conversam sobre tudo, planejam o futuro juntos. É assim que tem que ser! Agora tão pensando no próximo passo: talvez um filho, quem sabe? Mas QUANDO e SE vocês estiverem prontos e estruturados.",
                     icon: "⚖️",
                     choices: [
                         {
-                            text: "Planejar família no futuro",
+                            text: "Planejar uma família no futuro, com estrutura",
                             effects: { health: 20, relationship: 45, money: 45, education: 40, wisdom: 50 },
-                            feedback: "Planejamento familiar DE VERDADE! Vão fazer tudo certinho: estrutura, preparo emocional!",
+                            feedback: "Planejamento familiar de verdade! Vocês vão fazer tudo certinho: esperar o momento certo, ter estrutura, estar preparados emocionalmente. Isso é que é responsa!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'perfect_balance'
                         },
                         {
-                            text: "Curtir vida a dois por enquanto",
+                            text: "Focar em viver bem a dois por enquanto",
                             effects: { health: 20, relationship: 40, money: 50, education: 40, wisdom: 45 },
-                            feedback: "Sem pressa! Curtindo a vida, viajando, crescendo juntos. Perfeito!",
+                            feedback: "Nada de pressa! Vocês tão curtindo a vida, viajando, crescendo juntos. Se um dia quiserem filhos, será no tempo de vocês. Perfeito!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'happy_couple'
@@ -336,13 +851,13 @@
                     id: 13,
                     title: "Casal Estruturado - 23 Anos",
                     age: 23,
-                    description: "Vocês moram juntos! Têm rotinas, brigam às vezes (normal), mas sempre conversam. Proteção é LEI. Pensando em filhos quando tiverem estrutura!",
+                    description: "Vocês moram juntos! Têm suas rotinas, brigam às vezes (normal), mas sempre conversam e resolvem. Proteção é lei na casa de vocês. Tão pensando em filhos? Sim, mas QUANDO tiverem estrutura financeira e emocional. Isso é planejamento familiar de verdade!",
                     icon: "🏡",
                     choices: [
                         {
-                            text: "Seguir construindo esse amor",
+                            text: "Seguir construindo esse amor maduro",
                             effects: { health: 25, relationship: 50, money: 45, education: 40, wisdom: 55 },
-                            feedback: "Exemplo perfeito de casal moderno e responsável! Amor, respeito, diálogo, prevenção!",
+                            feedback: "Vocês são o exemplo perfeito de casal moderno e responsável! Amor, respeito, diálogo, prevenção, planejamento. Isso é relacionamento saudável 100%!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'dream_couple'
@@ -353,13 +868,13 @@
                     id: 14,
                     title: "Projeto Patrocinado - 22 Anos",
                     age: 22,
-                    description: "Com César e Fabiano, teu projeto EXPLODIU! Estrutura de verdade, profissionais, material didático. Show lotou! A música 'Amor com Responsa' toca no Brasil todo!",
+                    description: "Com o patrocínio de César Menotti e Fabiano, teu projeto explodiu! Agora tem estrutura de verdade: auditório na quebrada, profissionais fixos, material didático de qualidade. O show beneficente lotou! Arrecadaram grana suficiente pra manter o projeto por 2 anos. E a música que eles compuseram, 'Amor com Responsa', tá tocando em todo Brasil, levando a mensagem!",
                     icon: "🌟",
                     choices: [
                         {
-                            text: "Dedicar vida ao projeto e expandir",
+                            text: "Dedicar a vida a esse projeto e expandir ele",
                             effects: { health: 20, relationship: 30, money: 50, education: 40, reputation: 60, wisdom: 55 },
-                            feedback: "Líder comunitário DE VERDADE! Projeto em 10 quebradas. Tu tá mudando o BRASIL!",
+                            feedback: "Tu virou líder comunitário de verdade! O projeto cresceu, já tem franquias em 10 quebradas diferentes. César e Fabiano te dão todo apoio. Tu tá mudando o Brasil, uma comunidade de cada vez!",
                             nextScene: 20,
                             isEnding: true,
                             endingType: 'legend'
@@ -378,183 +893,91 @@
                 lonely_success: {
                     title: "💰 SUCESSO SOLITÁRIO",
                     message: "Tu é rico, mas tá sozinho. Tem grana mas ninguém pra compartilhar. Sucesso financeiro é importante, mas... será que vale sem equilíbrio? Pensa nisso, mano. 🤔",
-                    color: "from-yellow-600 to-amber-700"
+                    color: "linear-gradient(to right, #ca8a04, #92400e)"
                 },
                 complete_life: {
                     title: "🌈 VIDA COMPLETA",
                     message: "Tu tinha sucesso mas tava vazio. Aí abriu o coração! Agora tem TUDO: carreira, amor, saúde. Aprendeu que vida completa precisa de equilíbrio! 🎯💖",
-                    color: "from-cyan-400 to-blue-500"
+                    color: "linear-gradient(to right, #06b6d4, #3b82f6)"
                 },
                 late_realization: {
                     title: "⏰ PERCEPÇÃO TARDIA",
                     message: "Tu percebeu tarde mas PERCEBEU: vida precisa equilíbrio! Agora tá tentando mudar. Nunca é tarde pra buscar vida completa! 💭❤️",
-                    color: "from-orange-400 to-amber-500"
+                    color: "linear-gradient(to right, #fb923c, #f59e0b)"
                 },
                 empty_success: {
                     title: "🏆 SUCESSO VAZIO",
                     message: "Tu tem TUDO... menos alguém pra dividir. Escolheu só carreira. Rico, sim. Feliz? Tu é que sabe. Grana não compra amor e companhia. 💔",
-                    color: "from-slate-600 to-gray-700"
+                    color: "linear-gradient(to right, #475569, #334155)"
                 },
                 perfect_balance: {
                     title: "⚖️ EQUILÍBRIO PERFEITO",
                     message: "Tu conseguiu! Carreira sólida, relacionamento incrível, saúde em dia. E quando quiserem filho, será com planejamento! Tu é exemplo! 🌟💑",
-                    color: "from-green-400 to-emerald-500"
+                    color: "linear-gradient(to right, #10b981, #059669)"
                 },
                 happy_couple: {
                     title: "💕 CASAL FELIZ",
                     message: "Vocês são LINDOS! Sem pressa de filho, curtindo vida, viajando, crescendo juntos. Sempre com proteção, diálogo, respeito! ❤️",
-                    color: "from-red-400 to-pink-500"
+                    color: "linear-gradient(to right, #f43f5e, #ec4899)"
                 },
                 dream_couple: {
                     title: "🏠 CASAL DOS SONHOS",
                     message: "Vocês moram juntos, têm rotinas, brigam e fazem as pazes. Mas sempre conversam, usam proteção, planejam futuro! Exemplo PERFEITO! 💑🏡",
-                    color: "from-teal-400 to-green-500"
+                    color: "linear-gradient(to right, #14b8a6, #10b981)"
                 },
                 legend: {
                     title: "⭐ LENDÁRIO - ÍCONE NACIONAL",
                     message: "MEU DEUS! Tu virou ÍCONE NACIONAL! Com César e Fabiano, projeto se espalhou pelo Brasil! 'Amor com Responsa' toca em todo canto! 🇧🇷🎵",
-                    color: "from-purple-400 to-pink-500"
+                    color: "linear-gradient(to right, #a855f7, #ec4899)"
+                },
+                aura_master: {
+                    title: "🌟 AURA MÁXIMA - DEUS DA QUEBRADA",
+                    message: "MEU DEUS! Tu atingiu AURA DIVINA! Cada escolha foi MESTRE! Tu é lenda, mito, semideus! A galera te adora, te respeita, te teme! Tu é o CRIOU! 🙌⚡",
+                    color: "linear-gradient(to right, #a855f7, #fbbf24)"
+                },
+                political_leader: {
+                    title: "🏛️ LÍDER POLÍTICO - PRESIDENTE DO BRASIL",
+                    message: "PARABÉNS! Tu virou PRESIDENTE! Com equilíbrio entre social e liberal, tu uniu o Brasil! Povo feliz, economia forte, futuro brilhante! Tu é a esperança! 🇧🇷✊",
+                    color: "linear-gradient(to right, #10b981, #fbbf24)"
+                },
+                vingador_supremo: {
+                    title: "🛡️ VINGADOR SUPREMO - SALVADOR DO MUNDO",
+                    message: "INCRÍVEL! Tu é o novo líder dos Vingadores! Combinou espionagem, liderança, tecnologia e investigação! Tu salvou o mundo várias vezes! Humanidade te agradece! 🌍🦸‍♂️",
+                    color: "linear-gradient(to right, #3b82f6, #ef4444)"
+                },
+                football_god: {
+                    title: "⚽ DEUS DO FUTEBOL - MELHOR DE TODOS OS TEMPOS",
+                    message: "IMPOSSÍVEL! Tu revolucionou o futebol! Mais que Pelé, Maradona, CR7! Tu é o maior! Estádios lotados, bilhões de fãs, lenda eterna! ⚽👑",
+                    color: "linear-gradient(to right, #10b981, #fbbf24)"
+                },
+                justice_master: {
+                    title: "🦇 MESTRE DA JUSTIÇA - PROTETOR DA HUMANIDADE",
+                    message: "ESPETACULAR! Tu é o novo Batman! Tecnologia + investigação = herói perfeito! Crime acabou, mundo seguro, tu é a esperança! 🌃🦇",
+                    color: "linear-gradient(to right, #1f2937, #3b82f6)"
+                },
+                coringa_chaos: {
+                    title: "🃏 SENHOR DO CAOS - REI DO MUNDO SUBMUNDO",
+                    message: "ASSUSTADOR! Tu virou o novo Coringa! Caos, poder, riqueza! Tu controla tudo das sombras! Medo, respeito, poder absoluto! O mundo é teu palco! 😈🃏",
+                    color: "linear-gradient(to right, #7c2d12, #dc2626)"
+                },
+                ultimate_balance: {
+                    title: "✨ EQUILÍBRIO ULTIMATO - SER HUMANO PERFEITO",
+                    message: "PERFEIÇÃO! Tu alcançou o equilíbrio máximo! Saúde, amor, dinheiro, sabedoria, AURA, carisma, poder! Tu é o ser humano ideal! Exemplo máximo! 🌟💎",
+                    color: "linear-gradient(to right, #a855f7, #10b981, #fbbf24, #ef4444)"
                 }
             };
             
-            if (!gameState.started) {
-                return (
-                    <div className="min-h-screen p-4 flex items-center justify-center fade-in">
-                        <div className="max-w-2xl w-full bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border-2 border-white/20">
-                            <div className="text-center mb-6">
-                                <h1 className="text-5xl font-bold text-white mb-2">🎮 VIDA REAL</h1>
-                                <h2 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-4">
-                                    A JORNADA COMPLETA
-                                </h2>
-                                <p className="text-white/90 text-lg leading-relaxed">
-                                    Um jogo sobre decisões e vida real na quebrada. Dos 16 aos 24 anos, cada escolha muda teu destino. Homem-Aranha, Thanos e César Menotti & Fabiano vão aparecer!
-                                </p>
-                            </div>
-                            
-                            <div className="space-y-4 mb-6">
-                                <div>
-                                    <label className="text-white font-semibold block mb-2 text-lg">Qual é teu nome, cria?</label>
-                                    <input
-                                        type="text"
-                                        value={gameState.name}
-                                        onChange={(e) => setGameState({...gameState, name: e.target.value})}
-                                        className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white/50 border-2 border-white/30 focus:border-white/60 outline-none text-lg"
-                                        placeholder="Digite seu nome"
-                                    />
-                                </div>
-                                
-                                <div>
-                                    <label className="text-white font-semibold block mb-2 text-lg">Como tu se identifica?</label>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <button
-                                            onClick={() => setGameState({...gameState, gender: 'masculino'})}
-                                            className={`py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 ${
-                                                gameState.gender === 'masculino' 
-                                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg' 
-                                                    : 'bg-white/20 text-white hover:bg-white/30'
-                                            }`}
-                                        >
-                                            Masculino
-                                        </button>
-                                        <button
-                                            onClick={() => setGameState({...gameState, gender: 'feminino'})}
-                                            className={`py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 ${
-                                                gameState.gender === 'feminino' 
-                                                    ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg' 
-                                                    : 'bg-white/20 text-white hover:bg-white/30'
-                                            }`}
-                                        >
-                                            Feminino
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button
-                                onClick={() => gameState.name && gameState.gender && setGameState({...gameState, started: true})}
-                                disabled={!gameState.name || !gameState.gender}
-                                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-xl font-bold text-2xl hover:from-green-600 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transform hover:scale-105"
-                            >
-                                BORA COMEÇAR! 🚀
-                            </button>
-
-                            <div className="mt-6 bg-yellow-500/20 border-2 border-yellow-500/50 rounded-xl p-4">
-                                <p className="text-yellow-200 text-sm">
-                                    ⚠️ <strong>Jogo educativo</strong> sobre vida, escolhas, saúde sexual e consequências!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-            
-            if (gameState.gameOver) {
-                const ending = endings[gameState.ending] || endings.complete_life;
-                return (
-                    <div className="min-h-screen p-4 flex items-center justify-center fade-in">
-                        <div className="max-w-4xl w-full bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl">
-                            <div className={`bg-gradient-to-r ${ending.color} rounded-2xl p-8 mb-6 text-center`}>
-                                <h1 className="text-4xl font-bold text-white mb-4">{ending.title}</h1>
-                                <p className="text-white text-xl">{ending.message}</p>
-                            </div>
-                            
-                            <div className="grid grid-cols-3 gap-4 mb-6">
-                                <div className="bg-red-500/30 rounded-xl p-4 text-center">
-                                    <p className="text-white">❤️ Saúde</p>
-                                    <p className="text-3xl font-bold text-white">{gameState.health}%</p>
-                                </div>
-                                <div className="bg-green-500/30 rounded-xl p-4 text-center">
-                                    <p className="text-white">💰 Grana</p>
-                                    <p className="text-3xl font-bold text-white">{gameState.money}%</p>
-                                </div>
-                                <div className="bg-blue-500/30 rounded-xl p-4 text-center">
-                                    <p className="text-white">💑 Relação</p>
-                                    <p className="text-3xl font-bold text-white">{gameState.relationship}%</p>
-                                </div>
-                                <div className="bg-purple-500/30 rounded-xl p-4 text-center">
-                                    <p className="text-white">🎓 Educação</p>
-                                    <p className="text-3xl font-bold text-white">{gameState.education}%</p>
-                                </div>
-                                <div className="bg-yellow-500/30 rounded-xl p-4 text-center">
-                                    <p className="text-white">⭐ Reputação</p>
-                                    <p className="text-3xl font-bold text-white">{gameState.reputation}%</p>
-                                </div>
-                                <div className="bg-orange-500/30 rounded-xl p-4 text-center">
-                                    <p className="text-white">⚡ Sabedoria</p>
-                                    <p className="text-3xl font-bold text-white">{gameState.wisdom}%</p>
-                                </div>
-                            </div>
-                            
-                            {(gameState.metSpiderman || gameState.metThanos || gameState.metCesarMenotti) && (
-                                <div className="bg-white/20 rounded-xl p-6 mb-6">
-                                    <h3 className="text-white font-bold text-xl mb-4 text-center">🌟 Personagens Encontrados</h3>
-                                    <div className="flex justify-center gap-6">
-                                        {gameState.metSpiderman && <div className="text-center"><div className="text-5xl">🕷️</div><p className="text-white text-sm">Homem-Aranha</p></div>}
-                                        {gameState.metThanos && <div className="text-center"><div className="text-5xl">💜</div><p className="text-white text-sm">Thanos</p></div>}
-                                        {gameState.metCesarMenotti && <div className="text-center"><div className="text-5xl">🎸</div><p className="text-white text-sm">César & Fabiano</p></div>}
-                                    </div>
-                                </div>
-                            )}
-                            
-                            <button
-                                onClick={() => window.location.reload()}
-                                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-xl font-bold text-2xl hover:from-green-600 hover:to-emerald-700"
-                            >
-                                JOGAR DE NOVO 🔄
-                            </button>
-                            
-                            <div className="mt-6 bg-blue-500/20 border-2 border-blue-500/50 rounded-xl p-4">
-                                <p className="text-blue-200 text-center">
-                                    💡 Na vida real: sempre use proteção, faça exames, converse aberto! O SUS oferece tudo de graça! 🏥
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-            
-            const currentScene = scenes[gameState.currentScene];
-            const lastDecision = gameState.decisions[gameState.decisions.length - 1];
+            const statColors = {
+                health: 'linear-gradient(to right, #ef4444, #ec4899)',
+                money: 'linear-gradient(to right, #10b981, #059669)',
+                relationship: 'linear-gradient(to right, #3b82f6, #06b6d4)',
+                education: 'linear-gradient(to right, #8b5cf6, #6366f1)',
+                reputation: 'linear-gradient(to right, #eab308, #f97316)',
+                wisdom: 'linear-gradient(to right, #f97316, #ef4444)',
+                aura: 'linear-gradient(to right, #a855f7, #6366f1)',
+                charisma: 'linear-gradient(to right, #ec4899, #f43f5e)',
+                power: 'linear-gradient(to right, #dc2626, #991b1b)'
+            };
             
             const makeChoice = (choice) => {
                 const updates = {
@@ -564,11 +987,14 @@
                     education: Math.max(0, Math.min(100, gameState.education + (choice.effects.education || 0))),
                     reputation: Math.max(0, Math.min(100, gameState.reputation + (choice.effects.reputation || 0))),
                     wisdom: Math.max(0, Math.min(100, gameState.wisdom + choice.effects.wisdom)),
+                    aura: Math.max(0, Math.min(100, gameState.aura + (choice.effects.aura || 0))),
+                    charisma: Math.max(0, Math.min(100, gameState.charisma + (choice.effects.charisma || 0))),
+                    power: Math.max(0, Math.min(100, gameState.power + (choice.effects.power || 0))),
                     decisions: [...gameState.decisions, {
                         scene: gameState.currentScene,
                         choice: choice.text,
                         feedback: choice.feedback,
-                        age: currentScene.age
+                        age: scenes[gameState.currentScene].age
                     }],
                     currentScene: choice.nextScene,
                     age: scenes[choice.nextScene]?.age || gameState.age
@@ -579,6 +1005,16 @@
                 if (choice.triggerCharacter === 'spiderman') updates.metSpiderman = true;
                 if (choice.thanosInfluence) updates.metThanos = true;
                 if (choice.sertanejoWisdom) updates.metCesarMenotti = true;
+                if (choice.triggerCharacter === 'lula') updates.metLula = true;
+                if (choice.triggerCharacter === 'bolsonaro') updates.metBolsonaro = true;
+                if (choice.triggerCharacter === 'viuvanegra') updates.metViúvaNegra = true;
+                if (choice.triggerCharacter === 'capitaoamerica') updates.metCapitaoAmerica = true;
+                if (choice.triggerCharacter === 'cristianoronaldo') updates.metCristianoRonaldo = true;
+                if (choice.triggerCharacter === 'chaves') updates.metChaves = true;
+                if (choice.triggerCharacter === 'robertocarlos') updates.metRobertoCarlos = true;
+                if (choice.triggerCharacter === 'homemformiga') updates.metHomemFormiga = true;
+                if (choice.triggerCharacter === 'batman') updates.metBatman = true;
+                if (choice.triggerCharacter === 'coringa') updates.metCoringa = true;
                 
                 if (choice.isEnding) {
                     setGameState({...gameState, ...updates, gameOver: true, ending: choice.endingType});
@@ -587,96 +1023,298 @@
                 }
             };
             
-            return (
-                <div className="min-h-screen p-4 fade-in">
-                    <div className="max-w-5xl mx-auto">
-                        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 mb-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-purple-500 text-white px-4 py-2 rounded-full font-bold">{gameState.age} ANOS</div>
-                                    <div className="text-white font-bold">{gameState.name}</div>
-                                </div>
-                                <div className="flex gap-2">
-                                    {gameState.hasPartner && <span className="text-2xl">💑</span>}
-                                    {gameState.hasJob && <span className="text-2xl">💼</span>}
-                                    {gameState.hasKids && <span className="text-2xl">👶</span>}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 mb-6">
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                {[
-                                    {label: '❤️ Saúde', value: gameState.health, color: 'from-red-500 to-pink-500'},
-                                    {label: '💰 Grana', value: gameState.money, color: 'from-green-500 to-emerald-500'},
-                                    {label: '💑 Relação', value: gameState.relationship, color: 'from-blue-500 to-cyan-500'},
-                                    {label: '🎓 Educação', value: gameState.education, color: 'from-purple-500 to-indigo-500'},
-                                    {label: '⭐ Reputação', value: gameState.reputation, color: 'from-yellow-500 to-orange-500'},
-                                    {label: '⚡ Sabedoria', value: gameState.wisdom, color: 'from-orange-500 to-red-500'}
-                                ].map((stat, i) => (
-                                    <div key={i}>
-                                        <div className="text-white font-semibold mb-2">{stat.label}</div>
-                                        <div className="bg-white/20 rounded-full h-3">
-                                            <div className={`bg-gradient-to-r ${stat.color} h-full rounded-full transition-all`} style={{width: `${stat.value}%`}}/>
-                                        </div>
-                                        <p className="text-white text-sm mt-1">{stat.value}%</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        
-                        {lastDecision && (
-                            <div className="bg-yellow-500/20 rounded-2xl p-6 mb-6 border-2 border-yellow-500/50">
-                                <p className="text-yellow-100 font-bold mb-2">Consequência:</p>
-                                <p className="text-white">{lastDecision.feedback}</p>
-                            </div>
-                        )}
-                        
-                        {currentScene.character && (
-                            <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 mb-6 border-4 border-white/50">
-                                <div className="flex items-center gap-4">
-                                    <div className="text-6xl">{currentScene.icon}</div>
-                                    <div>
-                                        <p className="text-white font-bold text-2xl">
-                                            {currentScene.character === 'spiderman' && '🕷️ HOMEM-ARANHA!'}
-                                            {currentScene.character === 'thanos' && '💜 THANOS!'}
-                                            {currentScene.character === 'cesarmennoti' && '🎸 CÉSAR & FABIANO!'}
-                                        </p>
-                                        <p className="text-white/90">Escute com atenção...</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                        
-                        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="text-5xl">{currentScene.icon}</div>
-                                <div>
-                                    <h2 className="text-3xl font-bold text-white">{currentScene.title}</h2>
-                                    <p className="text-white/80">{currentScene.age} Anos</p>
-                                </div>
+            if (!gameState.started) {
+                return (
+                    <div className="container fade-in">
+                        <div className="card" style={{maxWidth: '800px', margin: '40px auto'}}>
+                            <div style={{textAlign: 'center'}}>
+                                <h1 className="title">🎮 VIDA REAL</h1>
+                                <h2 className="subtitle">A JORNADA COMPLETA</h2>
+                                <p style={{fontSize: '1.1rem', marginBottom: '30px', lineHeight: '1.8'}}>
+                                    Um jogo sobre decisões e vida real na quebrada. Dos 16 aos 24 anos, cada escolha muda teu destino. Homem-Aranha, Thanos e César Menotti & Fabiano vão aparecer!
+                                </p>
                             </div>
                             
-                            <p className="text-white/90 text-xl mb-8 bg-white/10 p-6 rounded-xl">{currentScene.description}</p>
+                            <div className="input-group">
+                                <label>Qual é teu nome, cria?</label>
+                                <input
+                                    type="text"
+                                    value={gameState.name}
+                                    onChange={(e) => setGameState({...gameState, name: e.target.value})}
+                                    placeholder="Digite seu nome"
+                                />
+                            </div>
                             
-                            <div className="space-y-4">
-                                {currentScene.choices.map((choice, i) => (
+                            <div className="input-group">
+                                <label>Como tu se identifica?</label>
+                                <div className="gender-buttons">
                                     <button
-                                        key={i}
-                                        onClick={() => makeChoice(choice)}
-                                        className="w-full bg-white/20 hover:bg-white/30 text-white p-6 rounded-2xl text-left transition-all transform hover:scale-105 border-2 border-white/30"
+                                        onClick={() => setGameState({...gameState, gender: 'masculino'})}
+                                        className={`btn btn-gender ${gameState.gender === 'masculino' ? 'active' : ''}`}
                                     >
-                                        <span className="text-xl font-semibold">{choice.text}</span>
+                                        Masculino
                                     </button>
-                                ))}
+                                    <button
+                                        onClick={() => setGameState({...gameState, gender: 'feminino'})}
+                                        className={`btn btn-gender female ${gameState.gender === 'feminino' ? 'active' : ''}`}
+                                    >
+                                        Feminino
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div className="mt-6 bg-blue-500/20 rounded-2xl p-6 border-2 border-blue-500/50">
-                            <p className="text-blue-200 text-center">
-                                💭 <strong>Pensa bem!</strong> Cada decisão tem consequência!
+
+                            <button
+                                onClick={() => gameState.name && gameState.gender && setGameState({...gameState, started: true})}
+                                disabled={!gameState.name || !gameState.gender}
+                                className="btn btn-primary"
+                            >
+                                BORA COMEÇAR! 🚀
+                            </button>
+
+                            <div className="warning">
+                                <p className="warning-text">
+                                    ⚠️ <strong>Jogo educativo</strong> sobre vida, escolhas, saúde sexual e consequências!
+                                </p>
+                            </div>
+                            
+                            <p style={{textAlign: 'center', marginTop: '20px', color: 'rgba(255,255,255,0.6)'}}>
+                                🕷️ Homem-Aranha | 💜 Thanos | 🎸 César & Fabiano | 🎭 Chaves | 🃏 Coringa | 🏛️ Lula & Bolsonaro | 🛡️ Viúva Negra & Capitão América | ⚽ CR7 & Roberto Carlos | 🦇 Homem Formiga & Batman
                             </p>
                         </div>
+                    </div>
+                );
+            }
+            
+            if (gameState.gameOver) {
+                const ending = endings[gameState.ending] || endings.complete_life;
+                return (
+                    <div className="container fade-in">
+                        <div className="card" style={{maxWidth: '900px', margin: '20px auto'}}>
+                            <div className="ending-header" style={{background: ending.color}}>
+                                <h1 className="ending-title">{ending.title}</h1>
+                                <p className="ending-message">{ending.message}</p>
+                            </div>
+                            
+                            <div className="final-stats">
+                                {[
+                                    {label: '❤️ Saúde', value: gameState.health, borderColor: '#ef4444'},
+                                    {label: '💰 Grana', value: gameState.money, borderColor: '#10b981'},
+                                    {label: '💑 Relação', value: gameState.relationship, borderColor: '#3b82f6'},
+                                    {label: '🎓 Educação', value: gameState.education, borderColor: '#8b5cf6'},
+                                    {label: '⭐ Reputação', value: gameState.reputation, borderColor: '#eab308'},
+                                    {label: '⚡ Sabedoria', value: gameState.wisdom, borderColor: '#f97316'},
+                                    {label: '🌟 AURA', value: gameState.aura, borderColor: '#a855f7'},
+                                    {label: '💫 Charisma', value: gameState.charisma, borderColor: '#ec4899'},
+                                    {label: '💪 Poder', value: gameState.power, borderColor: '#dc2626'}
+                                ].map((stat, i) => (
+                                    <div key={i} className="final-stat" style={{borderColor: stat.borderColor}}>
+                                        <p>{stat.label}</p>
+                                        <p className="final-stat-value">{stat.value}%</p>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            {(gameState.metSpiderman || gameState.metThanos || gameState.metCesarMenotti || gameState.metLula || gameState.metBolsonaro || gameState.metViúvaNegra || gameState.metCapitaoAmerica || gameState.metCristianoRonaldo || gameState.metChaves || gameState.metRobertoCarlos || gameState.metHomemFormiga || gameState.metBatman || gameState.metCoringa) && (
+                                <div className="characters-met">
+                                    <h3 style={{textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '15px'}}>
+                                        🌟 Personagens Encontrados
+                                    </h3>
+                                    <div className="characters-grid">
+                                        {gameState.metSpiderman && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🕷️</div>
+                                                <p style={{fontSize: '0.9rem'}}>Homem-Aranha</p>
+                                            </div>
+                                        )}
+                                        {gameState.metThanos && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">💜</div>
+                                                <p style={{fontSize: '0.9rem'}}>Thanos</p>
+                                            </div>
+                                        )}
+                                        {gameState.metCesarMenotti && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🎸</div>
+                                                <p style={{fontSize: '0.9rem'}}>César & Fabiano</p>
+                                            </div>
+                                        )}
+                                        {gameState.metLula && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🏛️</div>
+                                                <p style={{fontSize: '0.9rem'}}>Lula</p>
+                                            </div>
+                                        )}
+                                        {gameState.metBolsonaro && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🏛️</div>
+                                                <p style={{fontSize: '0.9rem'}}>Bolsonaro</p>
+                                            </div>
+                                        )}
+                                        {gameState.metViúvaNegra && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🛡️</div>
+                                                <p style={{fontSize: '0.9rem'}}>Viúva Negra</p>
+                                            </div>
+                                        )}
+                                        {gameState.metCapitaoAmerica && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🛡️</div>
+                                                <p style={{fontSize: '0.9rem'}}>Capitão América</p>
+                                            </div>
+                                        )}
+                                        {gameState.metCristianoRonaldo && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">⚽</div>
+                                                <p style={{fontSize: '0.9rem'}}>CR7</p>
+                                            </div>
+                                        )}
+                                        {gameState.metChaves && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🎭</div>
+                                                <p style={{fontSize: '0.9rem'}}>Chaves</p>
+                                            </div>
+                                        )}
+                                        {gameState.metRobertoCarlos && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">⚽</div>
+                                                <p style={{fontSize: '0.9rem'}}>Roberto Carlos</p>
+                                            </div>
+                                        )}
+                                        {gameState.metHomemFormiga && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🦇</div>
+                                                <p style={{fontSize: '0.9rem'}}>Homem Formiga</p>
+                                            </div>
+                                        )}
+                                        {gameState.metBatman && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🦇</div>
+                                                <p style={{fontSize: '0.9rem'}}>Batman</p>
+                                            </div>
+                                        )}
+                                        {gameState.metCoringa && (
+                                            <div className="character-met">
+                                                <div className="character-met-icon">🃏</div>
+                                                <p style={{fontSize: '0.9rem'}}>Coringa</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                            
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="btn btn-primary"
+                            >
+                                JOGAR DE NOVO 🔄
+                            </button>
+                            
+                            <div className="info-box" style={{marginTop: '20px'}}>
+                                <p>
+                                    💡 <strong>Na vida real:</strong> sempre use proteção, faça exames, converse aberto! O SUS oferece tudo de graça! 🏥
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            
+            const currentScene = scenes[gameState.currentScene];
+            const lastDecision = gameState.decisions[gameState.decisions.length - 1];
+            
+            return (
+                <div className="container fade-in">
+                    <div className="card">
+                        <div className="header-info">
+                            <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
+                                <div className="age-badge">{gameState.age} ANOS</div>
+                                <div style={{fontWeight: 'bold', fontSize: '1.2rem'}}>{gameState.name}</div>
+                            </div>
+                            <div className="icons">
+                                {gameState.hasPartner && <span>💑</span>}
+                                {gameState.hasJob && <span>💼</span>}
+                                {gameState.hasKids && <span>👶</span>}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="card">
+                        <div className="stats-grid">
+                            {[
+                                {label: '❤️ Saúde', value: gameState.health, gradient: statColors.health},
+                                {label: '💰 Grana', value: gameState.money, gradient: statColors.money},
+                                {label: '💑 Relação', value: gameState.relationship, gradient: statColors.relationship},
+                                {label: '🎓 Educação', value: gameState.education, gradient: statColors.education},
+                                {label: '⭐ Reputação', value: gameState.reputation, gradient: statColors.reputation},
+                                {label: '⚡ Sabedoria', value: gameState.wisdom, gradient: statColors.wisdom},
+                                {label: '🌟 AURA', value: gameState.aura, gradient: statColors.aura},
+                                {label: '💫 Charisma', value: gameState.charisma, gradient: statColors.charisma},
+                                {label: '💪 Poder', value: gameState.power, gradient: statColors.power}
+                            ].map((stat, i) => (
+                                <div key={i} className="stat">
+                                    <div className="stat-label">{stat.label}</div>
+                                    <div className="stat-bar">
+                                        <div className="stat-fill" style={{width: `${stat.value}%`, background: stat.gradient}} />
+                                    </div>
+                                    <div className="stat-value">{stat.value}%</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    {lastDecision && (
+                        <div className="feedback">
+                            <div className="feedback-title">Consequência da sua escolha:</div>
+                            <p>{lastDecision.feedback}</p>
+                        </div>
+                    )}
+                    
+                    {currentScene.character && (
+                        <div className="character-alert">
+                            <div className="character-icon">{currentScene.icon}</div>
+                            <div>
+                                <p style={{fontWeight: 'bold', fontSize: '1.5rem', marginBottom: '5px'}}>
+                                    {currentScene.character === 'spiderman' && '🕷️ HOMEM-ARANHA APARECEU!'}
+                                    {currentScene.character === 'thanos' && '💜 THANOS SURGIU!'}
+                                    {currentScene.character === 'cesarmennoti' && '🎸 CÉSAR MENOTTI E FABIANO!'}
+                                    {currentScene.character === 'chaves' && '🎭 CHAVES APARECEU!'}
+                                    {currentScene.character === 'coringa' && '🃏 CORINGA APARECEU!'}
+                                    {currentScene.character === 'politica' && '🏛️ LULA E BOLSONARO APARECEM!'}
+                                    {currentScene.character === 'vingadores' && '🛡️ VIÚVA NEGRA E CAPITÃO AMÉRICA!'}
+                                    {currentScene.character === 'futebol' && '⚽ CRISTIANO RONALDO E ROBERTO CARLOS!'}
+                                    {currentScene.character === 'justica' && '🦇 HOMEM FORMIGA E BATMAN!'}
+                                </p>
+                                <p style={{fontSize: '1.1rem'}}>Escute com atenção o que eles têm a dizer...</p>
+                            </div>
+                        </div>
+                    )}
+                    
+                    <div className="card">
+                        <div className="scene-header">
+                            <div className="scene-icon-box">{currentScene.icon}</div>
+                            <div>
+                                <h2 className="scene-title">{currentScene.title}</h2>
+                                <p className="scene-age">{currentScene.age} Anos de Idade</p>
+                            </div>
+                        </div>
+                        
+                        <div className="scene-description">{currentScene.description}</div>
+                        
+                        <div className="choices">
+                            {currentScene.choices.map((choice, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => makeChoice(choice)}
+                                    className="choice-btn"
+                                >
+                                    {choice.text}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <div className="info-box">
+                        <p>💭 <strong>Pensa bem antes de escolher, mano!</strong> Cada decisão tem consequência na tua vida!</p>
                     </div>
                 </div>
             );
