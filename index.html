@@ -437,6 +437,134 @@
             padding: 5px;
         }
         
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            min-width: 300px;
+        }
+        
+        .player-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .player-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        .track-info {
+            flex: 1;
+        }
+        
+        .track-title {
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .track-artist {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .play-btn {
+            background: linear-gradient(to right, #10b981, #059669);
+            width: 40px;
+            height: 40px;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            appearance: none;
+            outline: none;
+        }
+        
+        .volume-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .playlist {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .playlist-item {
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .playlist-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .playlist-item.active {
+            background: linear-gradient(to right, #10b981, #059669);
+        }
+        
+        .playlist-item-title {
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .playlist-item-artist {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.7rem;
+        }
+        
         @media (max-width: 768px) {
             .title { font-size: 2rem; }
             .subtitle { font-size: 1.3rem; }
@@ -1071,6 +1199,37 @@
             };
             
             const [showSettings, setShowSettings] = useState(false);
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [currentTrack, setCurrentTrack] = useState(0);
+            const [volume, setVolume] = useState(0.5);
+            
+            const tracks = [
+                {
+                    title: "Vida Real - Theme",
+                    artist: "Vida Real Game",
+                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                },
+                {
+                    title: "Quebrada Beats",
+                    artist: "Funk Nacional",
+                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                },
+                {
+                    title: "Decision Time",
+                    artist: "Drama Music",
+                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                },
+                {
+                    title: "Success Journey",
+                    artist: "Inspiration Music",
+                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                },
+                {
+                    title: "Aura Mode",
+                    artist: "Epic Beats",
+                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                }
+            ];
             
             const makeChoice = (choice) => {
                 const updates = {
@@ -1476,6 +1635,53 @@
                             </div>
                         </div>
                     )}
+                    
+                    <div className="music-player">
+                        <div className="player-header">
+                            <div className="player-icon">🎵</div>
+                            <div className="track-info">
+                                <div className="track-title">{tracks[currentTrack].title}</div>
+                                <div className="track-artist">{tracks[currentTrack].artist}</div>
+                            </div>
+                        </div>
+                        
+                        <div className="player-controls">
+                            <button className="control-btn" onClick={() => setCurrentTrack((currentTrack - 1 + tracks.length) % tracks.length)}>
+                                ⏮️
+                            </button>
+                            <button className="control-btn play-btn" onClick={() => setIsPlaying(!isPlaying)}>
+                                {isPlaying ? '⏸️' : '▶️'}
+                            </button>
+                            <button className="control-btn" onClick={() => setCurrentTrack((currentTrack + 1) % tracks.length)}>
+                                ⏭️
+                            </button>
+                            <div className="volume-control">
+                                <span style={{color: 'white', fontSize: '0.8rem'}}>🔊</span>
+                                <input 
+                                    type="range" 
+                                    className="volume-slider"
+                                    min="0" 
+                                    max="1" 
+                                    step="0.1"
+                                    value={volume}
+                                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="playlist">
+                            {tracks.map((track, index) => (
+                                <div 
+                                    key={index}
+                                    className={`playlist-item ${index === currentTrack ? 'active' : ''}`}
+                                    onClick={() => setCurrentTrack(index)}
+                                >
+                                    <div className="playlist-item-title">{track.title}</div>
+                                    <div className="playlist-item-artist">{track.artist}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             );
         }
