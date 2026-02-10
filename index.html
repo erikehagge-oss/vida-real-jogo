@@ -589,6 +589,7 @@
     </style>
 </head>
 <body>
+    <audio id="audio-player" />
     <div id="app"></div>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -1203,31 +1204,81 @@
             const [currentTrack, setCurrentTrack] = useState(0);
             const [volume, setVolume] = useState(0.5);
             
+            // Funções para controlar o áudio
+            const togglePlay = () => {
+                const audio = document.getElementById('audio-player');
+                if (isPlaying) {
+                    audio.pause();
+                } else {
+                    audio.play();
+                }
+                setIsPlaying(!isPlaying);
+            };
+            
+            const changeTrack = (index) => {
+                const audio = document.getElementById('audio-player');
+                audio.src = tracks[index].url;
+                audio.volume = volume;
+                setCurrentTrack(index);
+                if (isPlaying) {
+                    audio.play();
+                }
+            };
+            
+            const changeVolume = (newVolume) => {
+                const audio = document.getElementById('audio-player');
+                audio.volume = newVolume;
+                setVolume(newVolume);
+            };
+            
+            // Inicializar o áudio quando a componente montar
+            React.useEffect(() => {
+                const audio = document.getElementById('audio-player');
+                audio.src = tracks[currentTrack].url;
+                audio.volume = volume;
+                
+                // Event listener para quando a música acabar
+                audio.addEventListener('ended', () => {
+                    const nextTrack = (currentTrack + 1) % tracks.length;
+                    changeTrack(nextTrack);
+                });
+                
+                return () => {
+                    audio.removeEventListener('ended', () => {});
+                };
+            }, []);
+            
+            // Atualizar volume quando mudar
+            React.useEffect(() => {
+                const audio = document.getElementById('audio-player');
+                audio.volume = volume;
+            }, [volume]);
+            
             const tracks = [
                 {
                     title: "Vida Real - Theme",
                     artist: "Vida Real Game",
-                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
                 },
                 {
                     title: "Quebrada Beats",
                     artist: "Funk Nacional",
-                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
                 },
                 {
                     title: "Decision Time",
                     artist: "Drama Music",
-                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
                 },
                 {
                     title: "Success Journey",
                     artist: "Inspiration Music",
-                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
                 },
                 {
                     title: "Aura Mode",
                     artist: "Epic Beats",
-                    url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
                 }
             ];
             
@@ -1646,13 +1697,13 @@
                         </div>
                         
                         <div className="player-controls">
-                            <button className="control-btn" onClick={() => setCurrentTrack((currentTrack - 1 + tracks.length) % tracks.length)}>
+                            <button className="control-btn" onClick={() => changeTrack((currentTrack - 1 + tracks.length) % tracks.length)}>
                                 ⏮️
                             </button>
-                            <button className="control-btn play-btn" onClick={() => setIsPlaying(!isPlaying)}>
+                            <button className="control-btn play-btn" onClick={togglePlay}>
                                 {isPlaying ? '⏸️' : '▶️'}
                             </button>
-                            <button className="control-btn" onClick={() => setCurrentTrack((currentTrack + 1) % tracks.length)}>
+                            <button className="control-btn" onClick={() => changeTrack((currentTrack + 1) % tracks.length)}>
                                 ⏭️
                             </button>
                             <div className="volume-control">
@@ -1664,7 +1715,7 @@
                                     max="1" 
                                     step="0.1"
                                     value={volume}
-                                    onChange={(e) => setVolume(parseFloat(e.target.value))}
+                                    onChange={(e) => changeVolume(parseFloat(e.target.value))}
                                 />
                             </div>
                         </div>
@@ -1674,7 +1725,7 @@
                                 <div 
                                     key={index}
                                     className={`playlist-item ${index === currentTrack ? 'active' : ''}`}
-                                    onClick={() => setCurrentTrack(index)}
+                                    onClick={() => changeTrack(index)}
                                 >
                                     <div className="playlist-item-title">{track.title}</div>
                                     <div className="playlist-item-artist">{track.artist}</div>
