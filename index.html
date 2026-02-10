@@ -384,6 +384,7 @@
             cursor: pointer;
             transition: all 0.3s;
             z-index: 1000;
+            font-size: 1.5rem;
         }
         
         .settings-btn:hover {
@@ -434,57 +435,6 @@
             font-size: 1.5rem;
             cursor: pointer;
             padding: 5px;
-        }
-        
-        .settings-section {
-            margin-bottom: 20px;
-        }
-        
-        .settings-section-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: white;
-        }
-        
-        .settings-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-        
-        .settings-option-label {
-            color: white;
-        }
-        
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            cursor: pointer;
-        }
-        
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 21px;
-            height: 21px;
-            background: white;
-            border-radius: 50%;
-        }
-        
-        .volume-slider {
-            width: 100px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 5px;
         }
         
         @media (max-width: 768px) {
@@ -1169,6 +1119,10 @@
             if (!gameState.started) {
                 return (
                     <div className="container fade-in">
+                        <button className="settings-btn" onClick={() => setShowSettings(true)}>
+                            ⚙️
+                        </button>
+                        
                         <div className="card" style={{maxWidth: '800px', margin: '40px auto'}}>
                             <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=800&h=200&fit=crop" alt="Jogo da Vida" className="scene-image" />
                             <div style={{textAlign: 'center'}}>
@@ -1224,6 +1178,20 @@
                             <p style={{textAlign: 'center', marginTop: '20px', color: 'rgba(255,255,255,0.6)'}}>
                                 🕷️ Homem-Aranha | 💜 Thanos | 🎸 César & Fabiano | 🎭 Chaves | 🃏 Coringa | 🏛️ Lula & Bolsonaro | 🛡️ Viúva Negra & Capitão América | ⚽ CR7 & Roberto Carlos | 🦇 Homem Formiga & Batman
                             </p>
+                            
+                            {showSettings && (
+                                <div className="settings-modal">
+                                    <div className="settings-content">
+                                        <div className="settings-header">
+                                            <h2 className="settings-title">⚙️ Configurações</h2>
+                                            <button className="close-btn" onClick={() => setShowSettings(false)}>✖️</button>
+                                        </div>
+                                        <div style={{color: 'white', textAlign: 'center', padding: '20px'}}>
+                                            <p>Opções de configuração serão adicionadas aqui...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 );
@@ -1502,85 +1470,8 @@
                                     <h2 className="settings-title">⚙️ Configurações</h2>
                                     <button className="close-btn" onClick={() => setShowSettings(false)}>✖️</button>
                                 </div>
-                                
-                                <div className="settings-section">
-                                    <h3 className="settings-section-title">🔊 Áudio</h3>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Música de Fundo</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Efeitos Sonoros</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Volume</span>
-                                        <div className="volume-slider"></div>
-                                    </div>
-                                </div>
-                                
-                                <div className="settings-section">
-                                    <h3 className="settings-section-title">🎮 Gameplay</h3>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Dificuldade</span>
-                                        <span className="settings-option-label">Normal</span>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Velocidade do Texto</span>
-                                        <span className="settings-option-label">Média</span>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Auto-Salvar</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                </div>
-                                
-                                <div className="settings-section">
-                                    <h3 className="settings-section-title">🎨 Visual</h3>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Animações</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Imagens de Fundo</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Qualidade Gráfica</span>
-                                        <span className="settings-option-label">Alta</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="settings-section">
-                                    <h3 className="settings-section-title">📱 Controles</h3>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Modo Noturno</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Tamanho da Fonte</span>
-                                        <span className="settings-option-label">Médio</span>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Linguagem</span>
-                                        <span className="settings-option-label">Português</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="settings-section">
-                                    <h3 className="settings-section-title">🔐 Privacidade</h3>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Coletar Dados</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Compartilhar Estatísticas</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
-                                    <div className="settings-option">
-                                        <span className="settings-option-label">Cookies</span>
-                                        <div className="toggle-switch"></div>
-                                    </div>
+                                <div style={{color: 'white', textAlign: 'center', padding: '20px'}}>
+                                    <p>Opções de configuração serão adicionadas aqui...</p>
                                 </div>
                             </div>
                         </div>
