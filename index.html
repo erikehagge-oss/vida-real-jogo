@@ -589,7 +589,6 @@
     </style>
 </head>
 <body>
-    <audio id="audio-player" />
     <div id="app"></div>
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -1200,67 +1199,6 @@
             };
             
             const [showSettings, setShowSettings] = useState(false);
-            const [isPlaying, setIsPlaying] = useState(false);
-            const [currentTrack, setCurrentTrack] = useState(0);
-            const [volume, setVolume] = useState(0.5);
-            
-            const tracks = [
-                {
-                    title: "Construção",
-                    artist: "Chico Buarque",
-                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // URL temporária - substitua por URL real da música
-                }
-            ];
-            
-            // Funções para controlar o áudio
-            const togglePlay = () => {
-                const audio = document.getElementById('audio-player');
-                if (isPlaying) {
-                    audio.pause();
-                } else {
-                    audio.play();
-                }
-                setIsPlaying(!isPlaying);
-            };
-            
-            const changeTrack = (index) => {
-                const audio = document.getElementById('audio-player');
-                audio.src = tracks[index].url;
-                audio.volume = volume;
-                setCurrentTrack(index);
-                if (isPlaying) {
-                    audio.play();
-                }
-            };
-            
-            const changeVolume = (newVolume) => {
-                const audio = document.getElementById('audio-player');
-                audio.volume = newVolume;
-                setVolume(newVolume);
-            };
-            
-            // Inicializar o áudio quando a componente montar
-            React.useEffect(() => {
-                const audio = document.getElementById('audio-player');
-                audio.src = tracks[currentTrack].url;
-                audio.volume = volume;
-                
-                // Event listener para quando a música acabar
-                audio.addEventListener('ended', () => {
-                    const nextTrack = (currentTrack + 1) % tracks.length;
-                    changeTrack(nextTrack);
-                });
-                
-                return () => {
-                    audio.removeEventListener('ended', () => {});
-                };
-            }, []);
-            
-            // Atualizar volume quando mudar
-            React.useEffect(() => {
-                const audio = document.getElementById('audio-player');
-                audio.volume = volume;
-            }, [volume]);
             
             const makeChoice = (choice) => {
                 const updates = {
@@ -1666,34 +1604,6 @@
                             </div>
                         </div>
                     )}
-                    
-                    <div className="music-player">
-                        <div className="player-header">
-                            <div className="player-icon">🎵</div>
-                            <div className="track-info">
-                                <div className="track-title">{tracks[currentTrack].title}</div>
-                                <div className="track-artist">{tracks[currentTrack].artist}</div>
-                            </div>
-                        </div>
-                        
-                        <div className="player-controls">
-                            <button className="control-btn play-btn" onClick={togglePlay}>
-                                {isPlaying ? '⏸️' : '▶️'}
-                            </button>
-                            <div className="volume-control">
-                                <span style={{color: 'white', fontSize: '0.8rem'}}>🔊</span>
-                                <input 
-                                    type="range" 
-                                    className="volume-slider"
-                                    min="0" 
-                                    max="1" 
-                                    step="0.1"
-                                    value={volume}
-                                    onChange={(e) => changeVolume(parseFloat(e.target.value))}
-                                />
-                            </div>
-                        </div>
-                    </div>
                 </div>
             );
         }
