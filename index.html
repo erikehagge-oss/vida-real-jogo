@@ -1204,6 +1204,14 @@
             const [currentTrack, setCurrentTrack] = useState(0);
             const [volume, setVolume] = useState(0.5);
             
+            const tracks = [
+                {
+                    title: "Construção",
+                    artist: "Chico Buarque",
+                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // URL temporária - substitua por URL real da música
+                }
+            ];
+            
             // Funções para controlar o áudio
             const togglePlay = () => {
                 const audio = document.getElementById('audio-player');
@@ -1253,14 +1261,6 @@
                 const audio = document.getElementById('audio-player');
                 audio.volume = volume;
             }, [volume]);
-            
-            const tracks = [
-                {
-                    title: "Construção",
-                    artist: "Chico Buarque",
-                    url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" // URL temporária - substitua por URL real da música
-                }
-            ];
             
             const makeChoice = (choice) => {
                 const updates = {
